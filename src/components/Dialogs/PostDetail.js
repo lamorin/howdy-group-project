@@ -184,7 +184,12 @@ export default function PostDetail (props) {
               <Container disableGutters>
                 <Typography
                   color='textPrimary'
-                  style={{ display: 'inline-block', fontSize: '3em' }}
+                  style={{
+                    display: 'inline-block',
+                    fontSize: '2em',
+                    lineHeight: '1.1',
+                    marginBottom: '0.25em'
+                  }}
                 >
                   {postDetail.title}
                 </Typography>
