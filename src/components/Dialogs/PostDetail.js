@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
+  Container,
   Paper,
   Button,
   Grid,
@@ -11,6 +12,8 @@ import {
   Badge,
   makeStyles
 } from '@material-ui/core'
+
+import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
 // import { sizing } from "@material-ui/system";
 
 import PostReplyList from './PostReplyList.js'
@@ -47,7 +50,10 @@ export default function PostDetail (props) {
 
   const classes = useStyles()
 
-  const [state, setState] = useState({ vote: true })
+  const [state, setState] = useState({
+    voteUpEnabled: true,
+    voteDownEnabled: true
+  })
 
   //Find POST based on Params
   const postDetailInitialState = props.post.find(
@@ -102,14 +108,19 @@ export default function PostDetail (props) {
     setTextFieldState({ text: '' })
   }
 
-  const handleVote = e => {
-    if (state.vote) {
+  const handleVoteUp = e => {
+    if (state.voteUpEnabled) {
       setVoteState(votesState + 1)
-    } else {
-      setVoteState(votesState - 1)
+      setState({ voteUpEnabled: false, voteDownEnabled: true })
     }
+  }
 
-    setState({ vote: state.vote ? false : true })
+  const handleVoteDown = e => {
+    console.log('Down', state.voteDownEnabled, votesState)
+    if (votesState > 0 && state.voteDownEnabled) {
+      setVoteState(votesState - 1)
+      setState({ voteUpEnabled: true, voteDownEnabled: false })
+    }
   }
 
   //handles change to text input for new reply.
@@ -144,57 +155,69 @@ export default function PostDetail (props) {
 
   //   //JSX body that includes detail of post and replies associated.
   return (
-    <div
-    // className={classes.root}
-    >
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <MyPaper
-            height='100%'
-
-            // className={classes.paper}
+    <Container maxWidth='lg'>
+      <Grid>
+        <Grid>
+          <Typography
+            style={{ margin: '1em' }}
+            component='div'
+            variant='body1'
+            color='textPrimary'
           >
-            <MyBox height='100%'>
-              {' '}
-              <Typography component='div' variant='body1' color='textPrimary'>
-                <Link to='/'>Home Page</Link>
-              </Typography>
-              <Badge
-                color='secondary'
-                badgeContent={votesState}
-                anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              >
-                <Typography component='div' variant='h5' color='textPrimary'>
+            <Link to='/'>Home Page</Link>
+          </Typography>
+        </Grid>
+        <Grid container item xs={12}>
+          <Grid
+            item
+            xs={1}
+            style={{
+              textAlign: 'center'
+            }}
+          >
+            <KeyboardArrowUp color='primary' onClick={handleVoteUp} />
+            <Typography color='textPrimary'>{votesState}</Typography>
+            <KeyboardArrowDown color='primary' onClick={handleVoteDown} />
+          </Grid>
+          <Grid item xs={10}>
+            <Container disableGutters>
+              <Container disableGutters>
+                <Typography
+                  color='textPrimary'
+                  style={{ display: 'inline-block', fontSize: '3em' }}
+                >
                   {postDetail.title}
                 </Typography>
-              </Badge>
-              <Typography
-                component='div'
-                variant='body1'
-                color='textPrimary'
-                // className={classes.typoBody}
-              >
-                {postDetail.postText}
-              </Typography>
+              </Container>
+              <Container disableGutters>
+                <Typography
+                  component='div'
+                  variant='body1'
+                  color='textPrimary'
+                  // className={classes.typoBody}
+                >
+                  {postDetail.postText}
+                </Typography>
+              </Container>
+
               <form
               // onSubmit={handleSubmit}
               //form may not be necessary here since we have textfield.
               >
-                <MyTextField
-                  id='outlined-basic'
-                  // className={classes.textField}
-                  // label="Comment"
-                  name='reply'
-                  variant='outlined'
-                  //label='Reply'
-                  value={textFieldState.text}
-                  onChange={handleChange}
-                  placeholder='Write something'
-                />
-
-                <div
-                // className={classes.button}
-                >
+                <Container disableGutters>
+                  <MyTextField
+                    id='outlined-basic'
+                    // className={classes.textField}
+                    // label="Comment"
+                    name='reply'
+                    variant='outlined'
+                    //label='Reply'
+                    value={textFieldState.text}
+                    onChange={handleChange}
+                    placeholder='Write something'
+                  />
+                </Container>
+                <Container disableGutters>
                   <Button
                     variant='outlined'
                     size='medium'
@@ -204,29 +227,21 @@ export default function PostDetail (props) {
                   >
                     Submit
                   </Button>
+                </Container>
 
-                  <Button
-                    className={classes.button}
-                    variant='outlined'
-                    size='medium'
-                    color='primary'
-                    // className={classes.button}
-                    onClick={handleVote} //when does this needd to be refactored as a function call?
-                  >
-                    {state.vote ? 'Vote' : 'Unvote'}
-                  </Button>
-                  {/*How do I filter the prop? so that the post array isn't sent to postreplies?*/}
-                  <PostReplyList
-                    // handleSubmit = {handleSubmit}
-                    oldReply={replies}
-                    removeReplyFunc={removeReplyFunc}
-                  />
-                </div>
+                {/*How do I filter the prop? so that the post array isn't sent to postreplies?*/}
               </form>
-            </MyBox>
-          </MyPaper>
+              <Container disableGutters>
+                <PostReplyList
+                  // handleSubmit = {handleSubmit}
+                  oldReply={replies}
+                  removeReplyFunc={removeReplyFunc}
+                />
+              </Container>
+            </Container>
+          </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   )
 }
