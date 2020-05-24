@@ -9,7 +9,8 @@ import {
   TextField,
   Box,
   Badge,
-  makeStyles
+  makeStyles,
+  Container
 } from '@material-ui/core'
 // import { sizing } from "@material-ui/system";
 
@@ -144,15 +145,15 @@ export default function PostDetail (props) {
 
   //   //JSX body that includes detail of post and replies associated.
   return (
-    <div
+    <Container
     // className={classes.root}
     >
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid container spacing={3} maxWidth='xs'>
+        <Grid item xs={12} style={{ border: '10px solid red' }}>
           <MyPaper
             height='100%'
-
             // className={classes.paper}
+            style={{ border: '10px solid green' }}
           >
             <MyBox height='100%'>
               {' '}
@@ -227,6 +228,6 @@ export default function PostDetail (props) {
           </MyPaper>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   )
 }
