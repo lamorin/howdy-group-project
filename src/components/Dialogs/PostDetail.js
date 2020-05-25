@@ -2,37 +2,18 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Container,
-  Paper,
   Button,
   Grid,
   styled,
   Typography,
-  TextField,
-  Box,
-  makeStyles
+  TextField
 } from '@material-ui/core'
 
 import Vote from './Vote'
 
 import PostReplyList from './PostReplyList.js'
 
-const MyPaper = styled(Paper)({
-  margin: 15
-})
-
 //Need to figure out how to keep text width fixed on screen size change?? Also need to understand nesting. For example should we combine the paper and box? Also how do we do fullheight for paper?
-const MyBox = styled(Box)({
-  marginLeft: 400,
-  marginRight: 400,
-  paddingTop: 15,
-  paddingBottom: 15
-})
-
-const useStyles = makeStyles(theme => ({
-  button: {
-    marginLeft: theme.spacing(1)
-  }
-}))
 
 const MyTextField = styled(TextField)({
   marginTop: 10,
@@ -44,9 +25,7 @@ const MyTextField = styled(TextField)({
 //Post Detail Page which allows users to reply to a saved post.
 
 export default function PostDetail (props) {
-  const classes = useStyles()
   const [postState, setPostState] = useState(props.post)
-  const [formState, setformState] = useState({ text: '' })
   const [replies, setReplies] = useState(
     props.comments.filter(comment => props.match.params.id === `${comment.id}`)
   )
@@ -85,13 +64,11 @@ export default function PostDetail (props) {
   }
 
   const vote = () => {
-    props.voteHandler(postState.id)
-    setPostState(postState)
+    return props.voteHandler(postState.id)
   }
 
   const unvote = () => {
-    props.unvoteHandler(postState.id)
-    setPostState(postState)
+    return props.unvoteHandler(postState.id)
   }
 
   return (
@@ -107,14 +84,16 @@ export default function PostDetail (props) {
             <Link to='/'>Home Page</Link>
           </Typography>
         </Grid>
-        <Grid container item xs={12}>
-          <Vote
-            voteHandler={vote}
-            unvoteHandler={unvote}
-            votes={postState.votes}
-            postId={postState.id}
-          ></Vote>
-          <Grid item xs={10}>
+        <Grid container>
+          <Grid container>
+            <Vote
+              voteHandler={vote}
+              unvoteHandler={unvote}
+              votes={postState.votes}
+              postId={postState.id}
+            ></Vote>
+          </Grid>
+          <Grid container item>
             <Container>
               <Container>
                 <Typography
@@ -145,7 +124,7 @@ export default function PostDetail (props) {
               //form may not be necessary here since we have textfield.
               >
                 <Container>
-                  <MyTextField
+                  <TextField
                     id='outlined-basic'
                     // className={classes.textField}
                     // label="Comment"
@@ -155,6 +134,8 @@ export default function PostDetail (props) {
                     value={textFieldState.text}
                     onChange={handleChange}
                     placeholder='Write something'
+                    fullWidth
+                    margin={'normal'}
                   />
                 </Container>
                 <Container>

@@ -11,11 +11,11 @@ export default function Vote (props) {
 
   const clickUpArrowHandler = () => {
     if (state.voteUpEnabled) {
-      props.voteHandler(props.postId)
+      const votes = props.voteHandler()
       setState({
         ...state,
-        votes: state.votes + 1,
-        voteUpEnabled: state.votes,
+        votes: votes,
+        voteUpEnabled: false,
         voteDownEnabled: true
       })
     }
@@ -23,10 +23,10 @@ export default function Vote (props) {
 
   const clickDownArrowHandler = () => {
     if (state.votes > 0 && state.voteDownEnabled) {
-      props.unvoteHandler(props.postId)
+      const votes = props.unvoteHandler()
       setState({
         ...props,
-        votes: state.votes - 1,
+        votes: votes,
         voteUpEnabled: true,
         voteDownEnabled: false
       })
@@ -36,7 +36,7 @@ export default function Vote (props) {
   return (
     <Grid
       item
-      xs={1}
+      lg={2}
       style={{
         textAlign: 'center'
       }}

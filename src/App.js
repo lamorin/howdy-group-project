@@ -1,28 +1,13 @@
-import _ from 'lodash' // Import the entire lodash library
 // import { clone, cloneDeep } from "lodash" // Alternatively: Import just the clone methods from lodash
 import React, { useState } from 'react'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  HashRouter
-} from 'react-router-dom'
-// import styled from "styled-components";
+import { Route, HashRouter } from 'react-router-dom'
 
 //comment data may not need to be passed down to rightpanel.
 import { comments, postData } from './data/store.js'
-
 import CombinedPanels from './components/Forum/Combined-Panels'
-
 import PostDetail from './components/Dialogs/PostDetail.js'
-import { Store } from '@material-ui/icons'
-// import PostReply from "./components/Dialogs/PostReply.js";
-
-// import "./App.css";
 
 function App () {
-  //NEW POST CONTROLLERS
-
   /*****POST CONTROLLER LOGIC*********/
 
   //Initial formstate is for setting current post. This is then updated basedon the post that the user wants to edit.
@@ -84,16 +69,16 @@ function App () {
   /*****REPLY CONTROLLER LOGICSHOULD GO HERE BUT CURRENTLY IN POSTDETAIL.JS; NEEDS TO BE RE-FACTORED.*********/
 
   const handleVote = postId => {
-    const deepCopyWithLodashCloneDeep = _.cloneDeep(userPosts)
-    const p = deepCopyWithLodashCloneDeep.find(post => postId === post.id)
-    p.votes += 1
-    setUserPosts(deepCopyWithLodashCloneDeep)
+    //const deepCopyWithLodashCloneDeep = _.cloneDeep(userPosts)
+    const post = userPosts.find(post => postId === post.id)
+    post.votes += 1
+    return post.votes
   }
 
   const handleUnvote = postId => {
     const post = userPosts.find(post => postId === post.id)
     post.votes -= 1
-    setUserPosts(userPosts)
+    return post.votes
   }
 
   return (
@@ -115,7 +100,6 @@ function App () {
               editPost={editPost}
               currentPost={currentPost}
               updatePost={updatePost}
-
               // handleSubmit={handleSubmit}
               // handleChangeText={handleChangeText}
               // handleChangeTitle={handleChangeTitle}
