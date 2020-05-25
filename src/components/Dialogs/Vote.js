@@ -11,7 +11,6 @@ export default function Vote (props) {
 
   const clickUpArrowHandler = () => {
     if (state.voteUpEnabled) {
-      // Aviso al padre
       props.voteHandler()
       setState({
         ...state,
@@ -22,10 +21,10 @@ export default function Vote (props) {
   }
 
   const clickDownArrowHandler = () => {
-    if (props.votesState > 0 && state.voteDownEnabled) {
+    if (state.voteDownEnabled) {
       props.unvoteHandler()
       setState({
-        ...props,
+        ...state,
         voteUpEnabled: true,
         voteDownEnabled: false
       })

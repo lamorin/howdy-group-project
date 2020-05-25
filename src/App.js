@@ -68,16 +68,12 @@ function App () {
 
   /*****REPLY CONTROLLER LOGICSHOULD GO HERE BUT CURRENTLY IN POSTDETAIL.JS; NEEDS TO BE RE-FACTORED.*********/
 
-  const handleVote = postId => {
-    const post = userPosts.find(post => postId === post.id)
+  const handleVote = post => {
     post.votes += 1
-    return post.votes
   }
 
-  const handleUnvote = postId => {
-    const post = userPosts.find(post => postId === post.id)
+  const handleUnvote = post => {
     post.votes -= 1
-    return post.votes
   }
 
   const [postState, setPostState] = useState()

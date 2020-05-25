@@ -65,13 +65,13 @@ export default function PostDetail (props) {
   }
 
   const vote = () => {
-    const votes = props.voteHandler(postState.id)
-    setVotesState(votes)
+    props.voteHandler(props.post)
+    setVotesState(props.post.votes)
   }
 
   const unvote = () => {
-    const votes = props.unvoteHandler(postState.id)
-    setVotesState(votes)
+    props.unvoteHandler(props.post)
+    setVotesState(props.post.votes)
   }
 
   return (
