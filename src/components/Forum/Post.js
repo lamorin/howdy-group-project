@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   List,
   ListItem,
@@ -8,31 +8,32 @@ import {
   Link,
   ListItemIcon,
   styled
-} from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
+} from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
 
-import EditPostForm from "./EditPostForm.js";
+import EditPostForm from './EditPostForm.js'
 
 //component that reprsents a single post.
 
 const MyButton = styled(Button)({
-  color: "grey",
+  color: 'grey',
   fontSize: 10,
   marginLeft: 52,
   marginRight: -70,
   marginTop: -20
   //paddingLeft: 70
-});
-export default function Post(props) {
+})
+export default function Post (props) {
   // const classes = useStyles();
   // console.log("Post.js - props", props);
   return (
     <List
     // className={classes.root}
     >
-      <ListItem alignItems="flex-start">
+      <ListItem alignItems='flex-start'>
         <ListItemIcon>
-          <Icon fontSize="small">code</Icon>
+          <Icon fontSize='small'>code</Icon>
+          {props.post.votes}
         </ListItemIcon>
         {/**/}
         <ListItemText
@@ -42,14 +43,14 @@ export default function Post(props) {
           secondary={
             <React.Fragment>
               <Typography
-                component="span"
-                variant="body2"
+                component='span'
+                variant='body2'
                 // className={classes.inline}
-                color="textPrimary"
+                color='textPrimary'
               >
                 {props.post.name}
               </Typography>
-              {props.post.comment} {props.post.comment} {props.post.flag}{" "}
+              {props.post.comment} {props.post.comment} {props.post.flag}{' '}
               {props.post.date} {props.post.time}
             </React.Fragment>
           }
@@ -61,16 +62,16 @@ export default function Post(props) {
         editPost={props.editPost}
         currentPost={props.currentPost}
         updatePost={props.updatePost}
-        post ={props.post}
+        post={props.post}
       />
       />
       <MyButton
         onClick={() => {
-          props.deletePost(props.post.id);
+          props.deletePost(props.post.id)
         }}
       >
         Delete
       </MyButton>
     </List>
-  );
+  )
 }

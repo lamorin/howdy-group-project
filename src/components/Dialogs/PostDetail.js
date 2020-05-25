@@ -9,12 +9,10 @@ import {
   Typography,
   TextField,
   Box,
-  Badge,
   makeStyles
 } from '@material-ui/core'
 
-import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
-// import { sizing } from "@material-ui/system";
+import Vote from './Vote'
 
 import PostReplyList from './PostReplyList.js'
 
@@ -40,65 +38,34 @@ const MyTextField = styled(TextField)({
   marginTop: 10,
   marginBottom: 10,
   //how to make width same width as text box?
-  width: 650
+  width: '100%'
 })
 
 //Post Detail Page which allows users to reply to a saved post.
 
 export default function PostDetail (props) {
-  // const classes = useStyles();
-
   const classes = useStyles()
-
-  const [state, setState] = useState({
-    voteUpEnabled: true,
-    voteDownEnabled: true
-  })
-
-  //Find POST based on Params
-  const postDetailInitialState = props.post.find(
-    postDetail => props.match.params.id === `${postDetail.id}`
-  )
-
-  // filters out replies for a given post.
-  const existingReplies = props.comments.filter(
-    postReplies => props.match.params.id === `${postReplies.id}`
-  )
-
-  //SET STATE
-  //Old replies that are currently in database or hard coded (i.e. dummy data)
-  const [replies, setReplies] = useState(existingReplies)
-
-  const [postDetail, setPostDetailState] = useState(postDetailInitialState)
-
-  const [votesState, setVoteState] = useState(postDetail.votes)
-
+  const [postState, setPostState] = useState(props.post)
   const [formState, setformState] = useState({ text: '' })
-
+  const [replies, setReplies] = useState(
+    props.comments.filter(comment => props.match.params.id === `${comment.id}`)
+  )
   const [textFieldState, setTextFieldState] = useState({
     text: ''
   })
 
-  //new replies that are added to a post.
-  //const [newReply, setNewReply] = useState([''])
-
-  //START HANDLER FUNCTIONS //
-
-  //logic for adding a new reply.
   const addReply = reply => {
     const newReplies = [...replies, reply]
-    console.log('PostDetail.js - addReply - reply', newReplies)
     setReplies(newReplies)
   }
 
-  //handles submit for new reply.
   const handleSubmit = e => {
     e.preventDefault()
     if (!replies) return
 
     const newReply = {
       id: 69,
-      PostId: postDetail.id,
+      PostId: postState.id,
       username: 'username999',
       reply: textFieldState.text,
       notification: true
@@ -108,52 +75,25 @@ export default function PostDetail (props) {
     setTextFieldState({ text: '' })
   }
 
-  const handleVoteUp = e => {
-    if (state.voteUpEnabled) {
-      setVoteState(votesState + 1)
-      setState({ voteUpEnabled: false, voteDownEnabled: true })
-    }
-  }
-
-  const handleVoteDown = e => {
-    console.log('Down', state.voteDownEnabled, votesState)
-    if (votesState > 0 && state.voteDownEnabled) {
-      setVoteState(votesState - 1)
-      setState({ voteUpEnabled: true, voteDownEnabled: false })
-    }
-  }
-
-  //handles change to text input for new reply.
   const handleChange = event => {
-    console.log('handleChange')
     setTextFieldState({ text: event.target.value })
   }
 
-  //removes a reply.
   const removeReplyFunc = arg => {
     const newReplyAfterRemovals = replies.filter(reply => reply.id !== arg)
     setReplies(newReplyAfterRemovals)
-    console.log('this is the remove reply button', newReplyAfterRemovals)
   }
 
-  console.log('PostDetail.js - reply hook variable', replies)
+  const vote = () => {
+    props.voteHandler(postState.id)
+    setPostState(postState)
+  }
 
-  // //EDITING REPLY
-  //   const [editingReply, setEditingReply] = useState(false);
+  const unvote = () => {
+    props.unvoteHandler(postState.id)
+    setPostState(postState)
+  }
 
-  //   const initialReplyFormState = {
-  //     id: null,
-  //     PostId: null,
-  //     username: "",
-  //     reply: "",
-  //     notification: null
-  //   };
-
-  //   const [currentReply, setCurrentReply] = useState(initialReplyFormState);
-
-  //   const editReply =
-
-  //   //JSX body that includes detail of post and replies associated.
   return (
     <Container maxWidth='lg'>
       <Grid>
@@ -168,20 +108,15 @@ export default function PostDetail (props) {
           </Typography>
         </Grid>
         <Grid container item xs={12}>
-          <Grid
-            item
-            xs={1}
-            style={{
-              textAlign: 'center'
-            }}
-          >
-            <KeyboardArrowUp color='primary' onClick={handleVoteUp} />
-            <Typography color='textPrimary'>{votesState}</Typography>
-            <KeyboardArrowDown color='primary' onClick={handleVoteDown} />
-          </Grid>
+          <Vote
+            voteHandler={vote}
+            unvoteHandler={unvote}
+            votes={postState.votes}
+            postId={postState.id}
+          ></Vote>
           <Grid item xs={10}>
-            <Container disableGutters>
-              <Container disableGutters>
+            <Container>
+              <Container>
                 <Typography
                   color='textPrimary'
                   style={{
@@ -191,17 +126,17 @@ export default function PostDetail (props) {
                     marginBottom: '0.25em'
                   }}
                 >
-                  {postDetail.title}
+                  {postState.title}
                 </Typography>
               </Container>
-              <Container disableGutters>
+              <Container>
                 <Typography
                   component='div'
                   variant='body1'
                   color='textPrimary'
                   // className={classes.typoBody}
                 >
-                  {postDetail.postText}
+                  {postState.postText}
                 </Typography>
               </Container>
 
@@ -209,7 +144,7 @@ export default function PostDetail (props) {
               // onSubmit={handleSubmit}
               //form may not be necessary here since we have textfield.
               >
-                <Container disableGutters>
+                <Container>
                   <MyTextField
                     id='outlined-basic'
                     // className={classes.textField}
@@ -222,7 +157,7 @@ export default function PostDetail (props) {
                     placeholder='Write something'
                   />
                 </Container>
-                <Container disableGutters>
+                <Container>
                   <Button
                     variant='outlined'
                     size='medium'
@@ -236,7 +171,7 @@ export default function PostDetail (props) {
 
                 {/*How do I filter the prop? so that the post array isn't sent to postreplies?*/}
               </form>
-              <Container disableGutters>
+              <Container>
                 <PostReplyList
                   // handleSubmit = {handleSubmit}
                   oldReply={replies}

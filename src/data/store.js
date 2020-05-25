@@ -25,6 +25,14 @@ export const comments = [
   }
 ]
 
+export const updatePostProperty = (post, property) => {
+  const existingPost = postData.find(post => post.id === post.id)
+
+  if (existingPost !== undefined) {
+    existingPost[property] = post[property]
+  }
+}
+
 export const postData = [
   {
     id: 1,
