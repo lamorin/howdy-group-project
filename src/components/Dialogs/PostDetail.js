@@ -9,9 +9,9 @@ import {
   TextField,
   Box
 } from "@material-ui/core";
-// import { sizing } from "@material-ui/system";
 
 import PostReplyList from "./PostReplyList.js";
+import Votes from "./Vote.js";
 
 const MyPaper = styled(Paper)({
   margin: 15
@@ -94,23 +94,41 @@ export default function PostDetail(props) {
 
   console.log("PostDetail.js - reply hook variable", newReply);
 
-// //EDITING REPLY 
-//   const [editingReply, setEditingReply] = useState(false);
+  // //EDITING REPLY 
+  //   const [editingReply, setEditingReply] = useState(false);
 
-//   const initialReplyFormState = {
-//     id: null,
-//     PostId: null,
-//     username: "",
-//     reply: "",
-//     notification: null
-//   };
+  //   const initialReplyFormState = {
+  //     id: null,
+  //     PostId: null,
+  //     username: "",
+  //     reply: "",
+  //     notification: null
+  //   };
 
-//   const [currentReply, setCurrentReply] = useState(initialReplyFormState);
+  //   const [currentReply, setCurrentReply] = useState(initialReplyFormState);
 
-//   const editReply = 
+  //   const editReply = 
 
 
-//   //JSX body that includes detail of post and replies associated.
+  //   //JSX body that includes detail of post and replies associated.
+
+  let votes = 0;
+  const [votesState, setVotesState] = useState(votes)
+
+
+  const vote = () => {
+    //props.voteHandler(props.post)
+    //setVotesState(props.post.votes)
+    setVotesState(votesState + 1)
+  }
+
+  const unvote = () => {
+    //props.unvoteHandler(props.post)
+    //setVotesState(props.post.votes)
+    setVotesState(votesState - 1)
+  }
+
+
   return (
     <div
     // className={classes.root}
@@ -120,13 +138,18 @@ export default function PostDetail(props) {
           <MyPaper
             height="100%"
 
-            // className={classes.paper}
+          // className={classes.paper}
           >
             <MyBox height="100%">
               {" "}
               <Typography component="div" variant="body1" color="textPrimary">
                 <Link to="/">Home Page</Link>
               </Typography>
+              <Votes
+                voteHandler={vote}
+                unvoteHandler={unvote}
+                votesState={votesState}
+              ></Votes>
               <Typography component="div" variant="h5" color="textPrimary">
                 {postDetail.title}
               </Typography>
@@ -134,7 +157,7 @@ export default function PostDetail(props) {
                 component="div"
                 variant="body1"
                 color="textPrimary"
-                // className={classes.typoBody}
+              // className={classes.typoBody}
               >
                 {postDetail.postText}
               </Typography>
