@@ -34,7 +34,6 @@ export default function Post (props) {
       <ListItem alignItems='flex-start'>
         <ListItemIcon>
           <Icon fontSize='small'>code</Icon>
-          {props.post.votes}
         </ListItemIcon>
         {/**/}
         <ListItemText
@@ -68,7 +67,6 @@ export default function Post (props) {
         currentPost={props.currentPost}
         updatePost={props.updatePost}
         post={props.post}
-      />
       />
       <MyButton
         onClick={() => {
