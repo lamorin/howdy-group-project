@@ -74,7 +74,7 @@ export default function PostDetail (props) {
   return (
     <Container maxWidth='lg'>
       <Grid>
-        <Grid>
+        <Grid item xs={12}>
           <Typography
             style={{ margin: '1em' }}
             component='div'
@@ -84,8 +84,8 @@ export default function PostDetail (props) {
             <Link to='/'>Home Page</Link>
           </Typography>
         </Grid>
-        <Grid container>
-          <Grid container>
+        <Grid container alignItems={'flex-start'}>
+          <Grid item xs={1}>
             <Vote
               voteHandler={vote}
               unvoteHandler={unvote}
@@ -93,72 +93,65 @@ export default function PostDetail (props) {
               postId={postState.id}
             ></Vote>
           </Grid>
-          <Grid container item>
-            <Container>
-              <Container>
-                <Typography
-                  color='textPrimary'
-                  style={{
-                    display: 'inline-block',
-                    fontSize: '2em',
-                    lineHeight: '1.1',
-                    marginBottom: '0.25em'
-                  }}
-                >
-                  {postState.title}
-                </Typography>
-              </Container>
-              <Container>
-                <Typography
-                  component='div'
-                  variant='body1'
-                  color='textPrimary'
-                  // className={classes.typoBody}
-                >
-                  {postState.postText}
-                </Typography>
-              </Container>
+          <Grid item xs={11}>
+            <Container disableGutters={true}>
+              <Typography
+                color='textPrimary'
+                style={{
+                  display: 'inline-block',
+                  fontSize: '2em',
+                  lineHeight: '1.1',
+                  marginBottom: '0.25em'
+                }}
+              >
+                {postState.title}
+              </Typography>
+
+              <Typography
+                component='div'
+                variant='body1'
+                color='textPrimary'
+                // className={classes.typoBody}
+              >
+                {postState.postText}
+              </Typography>
 
               <form
               // onSubmit={handleSubmit}
               //form may not be necessary here since we have textfield.
               >
-                <Container>
-                  <TextField
-                    id='outlined-basic'
-                    // className={classes.textField}
-                    // label="Comment"
-                    name='reply'
-                    variant='outlined'
-                    //label='Reply'
-                    value={textFieldState.text}
-                    onChange={handleChange}
-                    placeholder='Write something'
-                    fullWidth
-                    margin={'normal'}
-                  />
-                </Container>
-                <Container>
-                  <Button
-                    variant='outlined'
-                    size='medium'
-                    color='primary'
-                    // className={classes.button}
-                    onClick={handleSubmit} //when does this needd to be refactored as a function call?
-                  >
-                    Submit
-                  </Button>
-                </Container>
+                <TextField
+                  id='outlined-basic'
+                  // className={classes.textField}
+                  // label="Comment"
+                  name='reply'
+                  variant='outlined'
+                  //label='Reply'
+                  value={textFieldState.text}
+                  onChange={handleChange}
+                  placeholder='Write something'
+                  fullWidth
+                  margin={'normal'}
+                />
+
+                <Button
+                  variant='outlined'
+                  size='medium'
+                  color='primary'
+                  // className={classes.button}
+                  onClick={handleSubmit} //when does this needd to be refactored as a function call?
+                >
+                  Submit
+                </Button>
 
                 {/*How do I filter the prop? so that the post array isn't sent to postreplies?*/}
               </form>
-              <Container>
-                <PostReplyList
-                  // handleSubmit = {handleSubmit}
-                  oldReply={replies}
-                  removeReplyFunc={removeReplyFunc}
-                />
-              </Container>
+
+              <PostReplyList
+                // handleSubmit = {handleSubmit}
+                oldReply={replies}
+                removeReplyFunc={removeReplyFunc}
+              />
             </Container>
           </Grid>
         </Grid>
