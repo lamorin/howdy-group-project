@@ -10,7 +10,6 @@ export default function Vote (props) {
   })
 
   const clickUpArrowHandler = () => {
-    console.log('...HOLA...')
     if (state.voteUpEnabled) {
       props.voteHandler(props.postId)
       setState({
@@ -42,9 +41,16 @@ export default function Vote (props) {
         textAlign: 'center'
       }}
     >
-      <KeyboardArrowUp color='primary' onClick={clickUpArrowHandler} />
+      <span style={{ cursor: 'pointer' }}>
+        <KeyboardArrowUp
+          color='primary'
+          onClick={clickUpArrowHandler}
+        ></KeyboardArrowUp>{' '}
+      </span>
       <Typography color='textPrimary'>{state.votes}</Typography>
-      <KeyboardArrowDown color='primary' onClick={clickDownArrowHandler} />
+      <span style={{ cursor: 'pointer' }}>
+        <KeyboardArrowDown color='primary' onClick={clickDownArrowHandler} />
+      </span>
     </Grid>
   )
 }

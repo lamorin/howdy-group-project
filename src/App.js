@@ -1,7 +1,12 @@
 import _ from 'lodash' // Import the entire lodash library
 // import { clone, cloneDeep } from "lodash" // Alternatively: Import just the clone methods from lodash
 import React, { useState } from 'react'
-import { Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  HashRouter
+} from 'react-router-dom'
 // import styled from "styled-components";
 
 //comment data may not need to be passed down to rightpanel.
@@ -93,46 +98,48 @@ function App () {
 
   return (
     <div className='App'>
-      <Route
-        exact
-        path='/'
-        render={props => (
-          <CombinedPanels
-            {...props}
-            // post={postData}
-            userPosts={userPosts}
-            setUserPosts={setUserPosts}
-            addPost={addPost}
-            deletePost={deletePost}
-            editing={editing}
-            setEditing={setEditing}
-            editPost={editPost}
-            currentPost={currentPost}
-            updatePost={updatePost}
+      <HashRouter>
+        <Route
+          exact
+          path='/'
+          render={props => (
+            <CombinedPanels
+              {...props}
+              // post={postData}
+              userPosts={userPosts}
+              setUserPosts={setUserPosts}
+              addPost={addPost}
+              deletePost={deletePost}
+              editing={editing}
+              setEditing={setEditing}
+              editPost={editPost}
+              currentPost={currentPost}
+              updatePost={updatePost}
 
-            // handleSubmit={handleSubmit}
-            // handleChangeText={handleChangeText}
-            // handleChangeTitle={handleChangeTitle}
-            // newPost={newPost}
-            // setNewPost={setNewPost}
-          />
-        )}
-      />
-      <Route
-        path='/posts/:id'
-        render={props => (
-          <PostDetail
-            {...props}
-            comments={comments}
-            posts={userPosts}
-            post={userPosts.find(
-              post => props.match.params.id === `${post.id}`
-            )}
-            voteHandler={handleVote}
-            unvoteHandler={handleUnvote}
-          />
-        )}
-      />
+              // handleSubmit={handleSubmit}
+              // handleChangeText={handleChangeText}
+              // handleChangeTitle={handleChangeTitle}
+              // newPost={newPost}
+              // setNewPost={setNewPost}
+            />
+          )}
+        />
+        <Route
+          path='/posts/:id'
+          render={props => (
+            <PostDetail
+              {...props}
+              comments={comments}
+              posts={userPosts}
+              post={userPosts.find(
+                post => props.match.params.id === `${post.id}`
+              )}
+              voteHandler={handleVote}
+              unvoteHandler={handleUnvote}
+            />
+          )}
+        />
+      </HashRouter>
     </div>
   )
 }

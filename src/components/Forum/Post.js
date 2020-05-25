@@ -1,4 +1,5 @@
 import React from 'react'
+import { HashRouter, NavLink } from 'react-router-dom'
 import {
   List,
   ListItem,
@@ -38,7 +39,11 @@ export default function Post (props) {
         {/**/}
         <ListItemText
           primary={
-            <Link href={`/posts/${props.post.id}`}>{props.post.title}</Link>
+            <HashRouter>
+              <NavLink to={`/posts/${props.post.id}`}>
+                <Link>{props.post.title}</Link>
+              </NavLink>
+            </HashRouter>
           }
           secondary={
             <React.Fragment>
