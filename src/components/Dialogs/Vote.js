@@ -11,10 +11,10 @@ export default function Vote (props) {
 
   const clickUpArrowHandler = () => {
     if (state.voteUpEnabled) {
-      const votes = props.voteHandler()
+      // Aviso al padre
+      props.voteHandler()
       setState({
         ...state,
-        votes: votes,
         voteUpEnabled: false,
         voteDownEnabled: true
       })
@@ -22,11 +22,10 @@ export default function Vote (props) {
   }
 
   const clickDownArrowHandler = () => {
-    if (state.votes > 0 && state.voteDownEnabled) {
-      const votes = props.unvoteHandler()
+    if (props.votesState > 0 && state.voteDownEnabled) {
+      props.unvoteHandler()
       setState({
         ...props,
-        votes: votes,
         voteUpEnabled: true,
         voteDownEnabled: false
       })
@@ -47,7 +46,7 @@ export default function Vote (props) {
           onClick={clickUpArrowHandler}
         ></KeyboardArrowUp>{' '}
       </span>
-      <Typography color='textPrimary'>{state.votes}</Typography>
+      <Typography color='textPrimary'>{props.votesState}</Typography>
       <span style={{ cursor: 'pointer' }}>
         <KeyboardArrowDown color='primary' onClick={clickDownArrowHandler} />
       </span>

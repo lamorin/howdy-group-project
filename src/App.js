@@ -69,7 +69,6 @@ function App () {
   /*****REPLY CONTROLLER LOGICSHOULD GO HERE BUT CURRENTLY IN POSTDETAIL.JS; NEEDS TO BE RE-FACTORED.*********/
 
   const handleVote = postId => {
-    //const deepCopyWithLodashCloneDeep = _.cloneDeep(userPosts)
     const post = userPosts.find(post => postId === post.id)
     post.votes += 1
     return post.votes
@@ -80,6 +79,8 @@ function App () {
     post.votes -= 1
     return post.votes
   }
+
+  const [postState, setPostState] = useState()
 
   return (
     <div className='App'>

@@ -26,6 +26,7 @@ const MyTextField = styled(TextField)({
 
 export default function PostDetail (props) {
   const [postState, setPostState] = useState(props.post)
+  const [votesState, setVotesState] = useState(props.post.votes)
   const [replies, setReplies] = useState(
     props.comments.filter(comment => props.match.params.id === `${comment.id}`)
   )
@@ -64,11 +65,13 @@ export default function PostDetail (props) {
   }
 
   const vote = () => {
-    return props.voteHandler(postState.id)
+    const votes = props.voteHandler(postState.id)
+    setVotesState(votes)
   }
 
   const unvote = () => {
-    return props.unvoteHandler(postState.id)
+    const votes = props.unvoteHandler(postState.id)
+    setVotesState(votes)
   }
 
   return (
@@ -89,7 +92,7 @@ export default function PostDetail (props) {
             <Vote
               voteHandler={vote}
               unvoteHandler={unvote}
-              votes={postState.votes}
+              votesState={votesState}
               postId={postState.id}
             ></Vote>
           </Grid>
