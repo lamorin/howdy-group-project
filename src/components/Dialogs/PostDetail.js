@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import PostReplyList from "./PostReplyList.js";
-import Votes from "./Vote.js";
+import Votes from "./Votes.js";
 
 const MyPaper = styled(Paper)({
   margin: 15

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Grid, Typography } from '@material-ui/core'
 import { KeyboardArrowUp, KeyboardArrowDown } from '@material-ui/icons'
 
-export default function Vote(props) {
+export default function Votes(props) {
 
   const clickUpArrowHandler = () => {
     props.voteHandler()
